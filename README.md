@@ -248,7 +248,7 @@ Once your files are in Google Drive, set up a Claude Project to search them.
 Click **Edit project instructions** and paste this exactly:
 
 ```
-When I ask questions about my GSB coursework, search my Google Drive folder "Stanford Canvas Archive" for relevant materials. Cite the specific course and file where possible. If a query is ambiguous about scope, default to searching that folder.
+When I ask questions about my GSB coursework, search my Google Drive folder "Stanford Canvas Archive" for relevant materials. Cite the specific course and file where possible. If you can't find it in the connected files, say so rather than guessing. If a query is ambiguous about scope, default to searching that folder.
 ```
 
 ### Step 3 — Connect Google Drive
