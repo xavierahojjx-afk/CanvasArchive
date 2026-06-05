@@ -8,14 +8,12 @@ Download all your Stanford GSB Canvas course materials — slides, readings, and
 
 ## What this does
 
-This tool logs into Canvas as you, downloads all your course files, and organizes them into folders on your computer. You can then upload everything to Google Drive and ask Claude questions like *"What were the main frameworks from my strategy courses?"* or *"Find any reading on cap table dilution."*
+This tool logs into Canvas as you, downloads all your course files, and organizes them into folders on your computer. You can then upload everything to Google Drive and ask Claude questions like *"What the customer discovery frameworks from Startup Garage?"* or *"Based on everything I learned at GSB — coursework, guest speakers, cases — what are the most important signals VCs look for when evaluating early-stage founders?."*
 
 It downloads:
 - 📁 Slides and readings from every module
 - 📝 Assignment descriptions, your submissions, and instructor feedback
 - 🗂 Course syllabi and home pages
-
-It does **not** download recordings — those stay on Panopto/Zoom.
 
 ---
 
