@@ -1,0 +1,36 @@
+# Secrets — never commit
+.env
+token.json
+credentials.json
+
+# Runtime data — generated per user, not shared
+downloads/
+manifests/*.json
+logs/*.log
+logs/*.jsonl
+course_inventory.csv
+recordings_to_review.csv
+
+# Debug / dev scripts
+debug_course.py
+debug_home.py
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
