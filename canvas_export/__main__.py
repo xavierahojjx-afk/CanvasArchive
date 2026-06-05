@@ -41,6 +41,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("verify", help="Hit /users/self to confirm the Canvas token works")
     sub.add_parser("discover", help="Phase 1: list courses, write course_inventory.csv")
+    sub.add_parser("categorize",
+                   help="Interactively set categories / exclusions in the terminal (no CSV editing)")
 
     p_subm = sub.add_parser("submissions",
                             help="Copy local submission exports into course folders")
@@ -90,6 +92,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "discover":
         from . import discover
         return discover.run()
+    if args.command == "categorize":
+        from . import discover
+        return discover.categorize()
     if args.command == "files":
         from . import files
         return files.run(

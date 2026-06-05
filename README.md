@@ -161,51 +161,33 @@ Run these steps in order. Each one is safe to re-run if something goes wrong —
 python -m canvas_export discover
 ```
 
-This creates a file called `course_inventory.csv` in the `gsb-archive` folder. Open it in **Excel** or **Google Sheets**.
+This finds all your Canvas courses and lists them. **By default, each course is filed into a folder named after its Canvas term** (e.g. `Spring 2024`, `Fall 2024`) — so you don't have to do anything to organize them. You can skip straight to Phase 2.
 
-You need to do two things before moving on:
+#### (Optional) Organize and trim your courses
 
-#### A. Remove courses you don't want
+If you'd rather group courses by topic, or skip a few you don't want, run:
 
-Set the `include` column to `FALSE` for any course to skip. Good candidates:
-- Orientation or bootcamp modules
-- Courses from other schools (HBS online, etc.)
-- Empty placeholder courses
-- Anything with no real content
+```
+python -m canvas_export categorize
+```
 
-Leave everything else as `TRUE`.
+This shows you every course that will be downloaded and the folder it will go into. It then asks if you want to adjust anything. If you say yes, it walks through your courses **one at a time, right in the terminal** — no spreadsheet to open. For each course you can:
 
-#### B. Choose how to organize your folders
+- **Type a topic name** (e.g. `AI and Programming`, `Finance and Econ`) to file it under that folder instead of the term — great for grouping related courses across quarters.
+- **Press Enter** to keep it where it is.
+- **Type `-`** to reset it back to its Canvas term.
+- **Type `x`** to exclude it from the archive entirely — good for orientation modules, empty placeholders, or courses from other schools.
+- **Type `q`** to stop and save at any point.
 
-The `category` column controls the top-level folder your courses go into. Pick whichever approach works for you:
+You can re-run `categorize` as many times as you like; it remembers your previous choices.
 
-**Option A — By topic** *(find related material across quarters in one place)*
-
-Fill in the `category` column with a subject label for each course. Examples:
-
-| Category label |
-|----------------|
-| AI and Programming |
-| Finance and Econ |
-| Leadership and Soft Skills |
-| Startup and VC |
-| Career and Life |
-
-Use any labels that make sense to you.
-
-**Option B — By term** *(mirrors Canvas's own structure, less manual work)*
-
-The `term` column is already filled in (e.g. `Spring 2024`, `Fall 2024`). To use terms as your folders, copy each course's `term` value into its `category` column.
-
-In Excel, click the first empty `category` cell, type `=` then click the `term` cell next to it, and press Enter. Drag the formula down to fill all rows. Then select the whole `category` column → Copy → Paste Special → **Values only**.
-
-**Before moving on:** save the CSV, then run a dry run to preview the folder structure:
+**Before moving on:** run a dry run to preview the folder structure:
 
 ```
 python -m canvas_export files --dry-run
 ```
 
-This prints what folders would be created without downloading anything. If something looks wrong, go back and edit the CSV, then run `--dry-run` again.
+This prints what folders would be created without downloading anything. If something looks off, re-run `categorize` and adjust.
 
 ---
 
