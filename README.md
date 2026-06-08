@@ -6,6 +6,27 @@ Download all your Stanford GSB Canvas course materials — slides, readings, and
 
 ---
 
+## The easy way (recommended)
+
+You don't have to run any commands yourself. If you use an **AI coding assistant** —
+**Claude Code, Codex, or Cursor** — it can do the whole setup and download for you.
+
+1. Download this tool (see [Step 2](#step-2--download-this-tool) below) and open the
+   folder in your AI coding assistant.
+2. Tell it: **"Set this up and download my Canvas courses."**
+3. It runs every command for you and only stops to ask when it needs something — mainly
+   your **Canvas token** (see [Get your Canvas token](#get-your-canvas-token)) and a few
+   yes/no choices.
+
+That's it. The assistant reads the built-in `AGENTS.md` / `CLAUDE.md` instructions in this
+folder and walks you through everything, including the Google Drive and Claude steps at the
+end.
+
+> Prefer to type the commands yourself? Every step is also written out manually below as
+> **Path B**, so you can follow along either way.
+
+---
+
 ## What this does
 
 This tool logs into Canvas as you, downloads all your course files, and organizes them into folders on your computer. You can then upload everything to Google Drive and ask Claude questions like *"What are the customer discovery and user interview frameworks from Startup Garage?"* or *"Based on everything I learned at GSB — coursework, guest speakers, cases — what are the most important signals VCs look for when evaluating early-stage founders?."*
@@ -22,6 +43,9 @@ It downloads:
 You need two things installed on your computer. This is a one-time setup.
 
 ### Step 1 — Install Python
+
+> **Already have Python 3.10 or higher?** Skip to [Step 2](#step-2--download-this-tool).
+> (Not sure? Run `python --version` in a terminal — or just ask your AI assistant to check.)
 
 1. Go to **[python.org/downloads](https://www.python.org/downloads/)** and download the latest version.
 2. Run the installer.
@@ -41,7 +65,10 @@ You need two things installed on your computer. This is a one-time setup.
 
 1. Click the green **Code** button at the top of this page.
 2. Click **Download ZIP**.
-3. Unzip the downloaded file. Move the `gsb-archive` folder somewhere easy to find, like your Desktop.
+3. Unzip the downloaded file. You'll get a folder called **`CanvasArchive-main`** (the ZIP
+   adds `-main` to the name). Move it somewhere easy to find, like your Desktop. You can
+   rename it to `CanvasArchive` if you like — wherever this README says the project folder,
+   it means this one.
 
 ---
 
@@ -66,15 +93,32 @@ Your Canvas token is like a password that lets this tool download your own cours
 
 ## Set up the tool
 
-Open a terminal and navigate to the folder you downloaded. The easiest way:
+### Path A — Let your AI assistant do it (recommended)
+
+Open the project folder in **Claude Code, Codex, or Cursor** and say:
+
+> **"Set this up and download my Canvas courses."**
+
+The assistant creates the workspace, installs everything, builds your config file, asks you
+to paste your Canvas token, runs a quick test, and then downloads your courses — pausing to
+ask whenever it needs a decision from you. You don't type any commands.
+
+When it's done, skip ahead to [Upload to Google Drive](#upload-to-google-drive).
+
+> The instructions the assistant follows live in `AGENTS.md` and `CLAUDE.md` in this folder.
+
+### Path B — Run the commands yourself
+
+If you'd rather not use an assistant, open a terminal and navigate to the project folder.
+The easiest way:
 
 **Windows:**
-1. Open File Explorer and find the `gsb-archive` folder.
+1. Open File Explorer and find the `CanvasArchive-main` folder.
 2. Click in the address bar at the top, type `powershell`, and press Enter. A terminal opens already in the right place.
 
 **Mac:**
 1. Open Terminal.
-2. Type `cd ` (with a space after), then drag the `gsb-archive` folder from Finder into the Terminal window. Press Enter.
+2. Type `cd ` (with a space after), then drag the `CanvasArchive-main` folder from Finder into the Terminal window. Press Enter.
 
 Now run these commands **one at a time**, pressing Enter after each:
 
@@ -148,6 +192,10 @@ You should see a small table with your name and Stanford email. If you get an er
 ---
 
 ## Download your courses
+
+> **Using Path A (an AI assistant)?** It already handles this part — you can skip to
+> [Upload to Google Drive](#upload-to-google-drive). The steps below are the manual
+> (Path B) version.
 
 Run these steps in order. Each one is safe to re-run if something goes wrong — it skips files already downloaded.
 
@@ -226,7 +274,7 @@ Once downloading is complete, upload your files to Google Drive so Claude can se
    - **Mac:** Open Finder — it appears under Locations.
 2. Open `My Drive` inside it.
 3. Create a new folder called **`Stanford Canvas Archive`**.
-4. Open your `gsb-archive` folder, go into the `downloads` folder, and copy everything inside into `Stanford Canvas Archive`.
+4. Open your project folder (`CanvasArchive-main`), go into the `downloads` folder, and copy everything inside into `Stanford Canvas Archive`.
 5. The sync starts automatically. The Google Drive icon in your taskbar/menu bar shows a spinner while uploading — wait for it to show a checkmark.
 
 > For large archives this can take 30–60 minutes depending on your internet speed. You can leave it running in the background.
@@ -275,7 +323,7 @@ Claude will search the archive and cite the specific course and file.
 ## Something went wrong?
 
 **"CANVAS_TOKEN is not set"**
-The `.env` file is missing or in the wrong folder. Make sure it's inside `gsb-archive/`, next to `requirements.txt`. Open it and confirm your token is pasted after the `=` with no spaces.
+The `.env` file is missing or in the wrong folder. Make sure it's inside your project folder (`CanvasArchive-main`), next to `requirements.txt`. Open it and confirm your token is pasted after the `=` with no spaces. (If you're using an AI assistant, just tell it "the token isn't set" and it will fix the file.)
 
 **The terminal says "python is not recognized" or "command not found"**
 Python wasn't added to your PATH during installation. On Windows, re-run the Python installer, click "Modify", and check the "Add Python to environment variables" box.
