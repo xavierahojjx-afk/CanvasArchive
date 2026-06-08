@@ -85,7 +85,7 @@ Your Canvas token is like a password that lets this tool download your own cours
 7. Click **Generate Token**.
 8. A long string of letters and numbers appears. **Copy it now** — Canvas will never show it again.
 
-> ⚠️ **Keep this token private.** Do not paste it into a chat, email, or shared doc. It goes only into the private config file below.
+> ⚠️ **Keep this token private.** Don't post it in a public/shared chat, email, or shared doc — it goes only into the private `.env` config file. (Handing it to your own AI coding assistant in Path A is fine: it writes it straight into that gitignored file. If you'd prefer it never touch the assistant at all, paste it into `.env` yourself — see Path B, step 5.)
 >
 > If you ever share it by accident, go back to Canvas Settings → Approved Integrations, find the token, and click **Delete** to immediately cancel it. Then generate a new one.
 
@@ -100,11 +100,19 @@ Open the project folder in **Claude Code, Codex, or Cursor** and say:
 > **"Set this up and download my Canvas courses."**
 
 The assistant creates the workspace, installs everything, builds your config file, asks you
-to paste your Canvas token, runs a quick test, and then downloads your courses — pausing to
-ask whenever it needs a decision from you. You don't type any commands.
+for your Canvas token, runs a quick test, and then downloads your courses — pausing to ask
+whenever it needs a decision from you. You don't type any commands. When it reaches the
+optional **organize** step, it lists your courses and you just tell it, in plain English,
+which folder each should go in (or which to skip) — no terminal typing.
 
 When it's done, skip ahead to [Upload to Google Drive](#upload-to-google-drive).
 
+> **About your token:** the assistant writes it only into the private `.env` file (which is
+> gitignored and never uploaded), and it's instructed never to print, repeat, or commit it.
+> If you'd rather your token never pass through the assistant at all, you can paste it
+> directly into the `.env` file yourself and just tell the assistant "done" — see
+> [Get your Canvas token](#get-your-canvas-token) and step 5 of Path B.
+>
 > The instructions the assistant follows live in `AGENTS.md` and `CLAUDE.md` in this folder.
 
 ### Path B — Run the commands yourself

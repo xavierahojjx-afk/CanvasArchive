@@ -26,6 +26,34 @@ act (e.g. paste a token), give crystal-clear, click-by-click directions.
 - Each phase is **safe to re-run** — it skips files already downloaded. If something
   fails, retry the same step before troubleshooting.
 
+## Handling the Canvas token securely
+
+The user is likely **not** familiar with how to handle secrets. It's your job to keep
+their Canvas token safe. Follow all of these:
+
+- **The token belongs in exactly one place: the `.env` file.** Nowhere else.
+- **Before writing it, confirm `.env` is gitignored.** This repo's `.gitignore` already
+  lists `.env` (and `course_inventory.csv`, `downloads/`, `logs/`). Verify it's still
+  there so the token can never be committed or pushed.
+- **Write the token to `.env` using a direct file write/edit — not a shell command.**
+  Do not use `echo`, `Set-Content`, `cat`, or similar to insert it, because the token
+  would then appear in the terminal scrollback, shell history, and any command logs.
+  Edit the file's contents directly so `CANVAS_TOKEN=<their token>` and leave
+  `CANVAS_BASE_URL` unchanged.
+- **Never print, echo, repeat, summarize, or quote the token back** — not in chat, not in
+  a "let me confirm I got it right," not in a commit message, not in a status update.
+- **Never put the token in any file other than `.env`**, and never commit `.env`.
+- If `verify` fails, don't display the token to debug it — just re-ask the user to paste
+  it again and overwrite `.env`.
+- Reassure the user: the token only grants access to **their own** courses, it lives only
+  on their computer, and they can revoke it anytime at
+  Canvas → Settings → Approved Integrations → **Delete**.
+
+> **Most private option (offer it):** if the user would rather their token never pass
+> through the chat at all, tell them they can paste it directly into the `.env` file
+> themselves (open `.env`, put the token after `CANVAS_TOKEN=`, save) and just say "done."
+> Then continue from the verify step. This keeps the token entirely off the AI service.
+
 ## Setup sequence
 
 Run these in order, narrating each step.
@@ -58,8 +86,8 @@ Run these in order, narrating each step.
    4. Purpose: anything (e.g. `GSB Archive`). Leave **Expires** blank → **Generate Token**.
    5. Copy the token — Canvas shows it only once.
 
-   Then ask them to paste it to you, and **write it into `.env`** as the value of
-   `CANVAS_TOKEN` (leave `CANVAS_BASE_URL` as is). Do not echo it back.
+   Then have the token stored securely — follow
+   **[Handling the Canvas token securely](#handling-the-canvas-token-securely)** below.
 
 7. **Verify:** `python -m canvas_export verify`
    - Success shows a small table with the user's name and Stanford email. Tell them it
@@ -70,14 +98,32 @@ Run these in order, narrating each step.
 8. **Discover courses:** `python -m canvas_export discover`. This lists their courses and,
    by default, files each under its Canvas term (e.g. `Spring 2024`).
 
-9. **Offer to organize (optional).** Ask whether they want to regroup courses by topic or
-   exclude any. If yes, run `python -m canvas_export categorize` and relay its prompts —
-   for each course they can type a topic name, press Enter to keep, `-` to reset to the
-   term, `x` to exclude, or `q` to save and stop. This is interactive, so let the user
-   answer each prompt themselves.
+9. **Offer to organize (optional) — do this in chat, not via the interactive command.**
+   The built-in `categorize` command reads keystrokes from the terminal with `input()`,
+   which won't work when you're driving the shell. **Do not run
+   `python -m canvas_export categorize`.** Instead, handle categorization conversationally:
+
+   1. Ask the user whether they want to regroup courses by topic or exclude any. If they
+      say no, skip to step 10.
+   2. Read the course list from **`course_inventory.csv`** in the project root (written by
+      `discover`). Show the user each course with its current folder. The relevant columns
+      are:
+      - **`category`** — the folder name. Blank means "use the Canvas term" (e.g.
+        `Spring 2024`). Put a topic name here (e.g. `Finance and Econ`) to group it there.
+      - **`include`** — set to `FALSE` to leave a course out of the archive; anything else
+        keeps it.
+   3. Let the user tell you, in their own words, how to file each course (or in bulk —
+      e.g. "put all my finance classes under Finance"). Translate their answers into
+      `category` / `include` values.
+   4. **Write their choices back into `course_inventory.csv`**, preserving every other
+      column and row exactly. Don't change `course_id`, `name`, `term`, etc.
+   5. Show them the resulting plan and let them adjust until they're happy.
+
+   This produces the same result as the interactive command, but the user simply types
+   their preferences to you in chat.
 
 10. **Preview the layout:** `python -m canvas_export files --dry-run` and show them the
-    folder structure. If it looks wrong, offer to re-run `categorize`.
+    folder structure. If it looks wrong, go back to step 9 and adjust the CSV.
 
 11. **Download files:** `python -m canvas_export files` (slides, readings, module files).
 
