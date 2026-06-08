@@ -28,31 +28,41 @@ act (e.g. paste a token), give crystal-clear, click-by-click directions.
 
 ## Handling the Canvas token securely
 
-The user is likely **not** familiar with how to handle secrets. It's your job to keep
-their Canvas token safe. Follow all of these:
+The user is likely **not** familiar with how to handle secrets, and a Canvas token is
+effectively account-level access. It's your job to keep it safe.
+
+**Default and recommended: have the user paste the token into `.env` themselves — not into
+the chat.** A token pasted into the chat is transmitted to the AI provider, where it may be
+logged or retained. Pasting it straight into `.env` keeps it entirely on their machine and
+out of the conversation, and the tool reads `.env` on its own — you never need to see the
+raw value. So do this:
+
+1. Make sure `.env` exists (copied from `.env.example`).
+2. Open `.env` for the user (or tell them exactly where it is) and ask them to paste their
+   token after `CANVAS_TOKEN=`, leave `CANVAS_BASE_URL` as is, save, and say "done."
+3. Continue to the verify step. Do not ask them to read the token back to you.
+
+Always follow these rules regardless of how the token gets in:
 
 - **The token belongs in exactly one place: the `.env` file.** Nowhere else.
-- **Before writing it, confirm `.env` is gitignored.** This repo's `.gitignore` already
-  lists `.env` (and `course_inventory.csv`, `downloads/`, `logs/`). Verify it's still
-  there so the token can never be committed or pushed.
-- **Write the token to `.env` using a direct file write/edit — not a shell command.**
-  Do not use `echo`, `Set-Content`, `cat`, or similar to insert it, because the token
-  would then appear in the terminal scrollback, shell history, and any command logs.
-  Edit the file's contents directly so `CANVAS_TOKEN=<their token>` and leave
-  `CANVAS_BASE_URL` unchanged.
+- **Confirm `.env` is gitignored** before anything touches it. This repo's `.gitignore`
+  already lists `.env` (and `course_inventory.csv`, `downloads/`, `logs/`). Verify it's
+  still there so the token can never be committed or pushed.
 - **Never print, echo, repeat, summarize, or quote the token back** — not in chat, not in
-  a "let me confirm I got it right," not in a commit message, not in a status update.
+  a "let me confirm I got it right," not in a commit message, not in a status update. Don't
+  open or `cat` `.env` to inspect its contents.
 - **Never put the token in any file other than `.env`**, and never commit `.env`.
-- If `verify` fails, don't display the token to debug it — just re-ask the user to paste
-  it again and overwrite `.env`.
+- If `verify` fails, don't display the token to debug it — just ask the user to re-paste it
+  into `.env` and overwrite the old value.
 - Reassure the user: the token only grants access to **their own** courses, it lives only
   on their computer, and they can revoke it anytime at
   Canvas → Settings → Approved Integrations → **Delete**.
 
-> **Most private option (offer it):** if the user would rather their token never pass
-> through the chat at all, tell them they can paste it directly into the `.env` file
-> themselves (open `.env`, put the token after `CANVAS_TOKEN=`, save) and just say "done."
-> Then continue from the verify step. This keeps the token entirely off the AI service.
+> **Convenience fallback (only if the user prefers it):** if they'd rather just hand you the
+> token, they can paste it to you and you write it into `.env` using a **direct file
+> write/edit — never a shell command** like `echo`/`Set-Content`/`cat` (which would leak it
+> into terminal scrollback, shell history, and logs). Make clear this means the token passes
+> through the AI service. Prefer the default above unless they choose this.
 
 ## Setup sequence
 

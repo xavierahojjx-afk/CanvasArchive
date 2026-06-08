@@ -85,7 +85,7 @@ Your Canvas token is like a password that lets this tool download your own cours
 7. Click **Generate Token**.
 8. A long string of letters and numbers appears. **Copy it now** — Canvas will never show it again.
 
-> ⚠️ **Keep this token private.** Don't post it in a public/shared chat, email, or shared doc — it goes only into the private `.env` config file. (Handing it to your own AI coding assistant in Path A is fine: it writes it straight into that gitignored file. If you'd prefer it never touch the assistant at all, paste it into `.env` yourself — see Path B, step 5.)
+> ⚠️ **Keep this token private — treat it like a password.** It goes only into the private `.env` config file on your computer. The safest way (and the recommended one, even in Path A) is to paste it into `.env` **yourself** rather than into a chat — that keeps it entirely on your machine and out of any AI service. Don't post it in a public/shared chat, email, or shared doc.
 >
 > If you ever share it by accident, go back to Canvas Settings → Approved Integrations, find the token, and click **Delete** to immediately cancel it. Then generate a new one.
 
@@ -99,19 +99,20 @@ Open the project folder in **Claude Code, Codex, or Cursor** and say:
 
 > **"Set this up and download my Canvas courses."**
 
-The assistant creates the workspace, installs everything, builds your config file, asks you
-for your Canvas token, runs a quick test, and then downloads your courses — pausing to ask
+The assistant creates the workspace, installs everything, builds your config file, helps you
+add your Canvas token, runs a quick test, and then downloads your courses — pausing to ask
 whenever it needs a decision from you. You don't type any commands. When it reaches the
 optional **organize** step, it lists your courses and you just tell it, in plain English,
 which folder each should go in (or which to skip) — no terminal typing.
 
 When it's done, skip ahead to [Upload to Google Drive](#upload-to-google-drive).
 
-> **About your token:** the assistant writes it only into the private `.env` file (which is
-> gitignored and never uploaded), and it's instructed never to print, repeat, or commit it.
-> If you'd rather your token never pass through the assistant at all, you can paste it
-> directly into the `.env` file yourself and just tell the assistant "done" — see
-> [Get your Canvas token](#get-your-canvas-token) and step 5 of Path B.
+> **About your token (recommended):** when the assistant gets to the token step, it will
+> open the `.env` file and ask you to **paste the token into that file yourself** and save.
+> This keeps your token entirely on your computer — it never passes through the AI service.
+> The `.env` file is gitignored, so it's never uploaded. (If you'd rather just hand the
+> token to the assistant, you can — it's instructed to store it safely and never print or
+> commit it — but pasting into `.env` yourself is the safer default.)
 >
 > The instructions the assistant follows live in `AGENTS.md` and `CLAUDE.md` in this folder.
 
